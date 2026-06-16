@@ -1,9 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
+import contactsList from '@/pages/contacts/contactsList'
 
 export const Route = createFileRoute('/_authenticated/contacts/')({
-  component: RouteComponent,
+  component: contactsList,
 })
-
-function RouteComponent() {
-  return <div>Hello "/_authenticated/contacts/"!</div>
-}
