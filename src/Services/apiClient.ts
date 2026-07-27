@@ -1,4 +1,4 @@
-import axios, { type AxiosErroe } from 'axios'
+import axios, { type AxiosError } from 'axios'
 import { getAuthToken } from '../utils/auth'
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
@@ -11,7 +11,13 @@ const apiClient = axios.create({
   timeout: 15000,
 })
 
-apiClient.interceptors.request.use(
-    (config) => {
-        const token = getAuthToken()
-    }
+export type ApiResponse<T> = {
+  Value: T
+  isSuccess: boolean
+  isfailure: boolean
+  error: {
+    code: string
+    description: string
+    type: number
+  }
+}
