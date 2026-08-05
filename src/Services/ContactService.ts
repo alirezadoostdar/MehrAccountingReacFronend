@@ -9,9 +9,7 @@ export const useContactTypes = () => {
     queryFn: async () => {
       const res =
         await publicApi.get<ApiResponse<ContactType[]>>('api/contact/state')
-      console.log('response:', res)
-      console.log('data:', res.data)
-      return res.data.Value
+      return res.data.value
     },
   })
 }
