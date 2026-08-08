@@ -1,5 +1,14 @@
-import { useState } from 'react'
 import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 
 const formSchema = z.object({
   username: z
@@ -10,11 +19,19 @@ const formSchema = z.object({
 })
 
 export function LogInForm() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: { username: '', password: '' },
+  })
 
-  function handleSubmit(e: React.FormEvent) {
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    console.log(data)
+  }
+  /* const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState<Record<string, string>>({}) */
+
+  /*   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
     const result = formSchema.safeParse({ username, password })
@@ -31,25 +48,39 @@ export function LogInForm() {
     }
     setErrors({})
     console.log({ username, password })
-  }
+  } */
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type='text'
-        placeholder='Username'
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      {errors.username && <p style={{ color: 'red' }}>{errors.username}</p>}
-      <input
-        type='password'
-        placeholder='Password'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
-      <button type='submit'>Login</button>
-    </form>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name='username'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <input placeholder='Username' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='password'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <input placeholder='Password' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <button type='submit'>Submit</button>
+      </form>
+    </Form>
   )
 }
