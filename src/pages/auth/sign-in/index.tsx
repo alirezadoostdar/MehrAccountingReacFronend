@@ -1,6 +1,5 @@
 import { Link, useSearch } from '@tanstack/react-router'
 import { LogInForm } from '@/pages/auth/sign-in/components/loginForm'
-import { UserAuthForm } from '@/pages/auth/sign-in/components/userAuthForm'
 import {
   Card,
   CardContent,
@@ -12,7 +11,7 @@ import {
 import { AuthLayout } from '../auth-layout'
 
 export function LogIn() {
-  // const { redirect } = useSearch({ from: '/(auth)/sign-in' })
+  /*    const { redirect } = useSearch({ from: '/(auth)/sign-in' }) */
 
   return (
     <AuthLayout>
@@ -32,8 +31,8 @@ export function LogIn() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <UserAuthForm />
-          {/* <LogInForm /> */}
+          {/*  <UserAuthForm redirectTo={redirect} /> */}
+          <LogInForm />
         </CardContent>
         <CardFooter>
           <p className='px-8 text-center text-sm text-muted-foreground'>

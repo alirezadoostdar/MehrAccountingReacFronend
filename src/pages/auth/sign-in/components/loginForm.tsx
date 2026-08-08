@@ -1,6 +1,10 @@
+import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2, LogIn } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -9,6 +13,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { PasswordInput } from '@/components/password-input'
 
 const formSchema = z.object({
   username: z
@@ -18,13 +24,24 @@ const formSchema = z.object({
   password: z.string().min(1, 'Please enter your password.'),
 })
 
-export function LogInForm() {
+interface UserLoginFormProps extends React.HTMLAttributes<HTMLFormElement> {
+  redirectTo?: string
+}
+
+export function LogInForm({
+  className,
+  redirectTo,
+  ...props
+}: UserLoginFormProps) {
+  const [isLoading, setIsLoading] = useState(false)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { username: '', password: '' },
   })
 
   function onSubmit(data: z.infer<typeof formSchema>) {
+    setIsLoading(true)
     console.log(data)
   }
   /* const [username, setUsername] = useState('')
@@ -52,7 +69,11 @@ export function LogInForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={cn('grid gap-3', className)}
+        {...props}
+      >
         <FormField
           control={form.control}
           name='username'
@@ -60,7 +81,7 @@ export function LogInForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <input placeholder='Username' {...field} />
+                <Input placeholder='Username' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -73,13 +94,16 @@ export function LogInForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <input placeholder='Password' {...field} />
+                <PasswordInput placeholder='*********' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <button type='submit'>Submit</button>
+        <Button className='mt-2' disabled={isLoading}>
+          {isLoading ? <Loader2 className='animate-spin' /> : <LogIn />}
+          Log In
+        </Button>
       </form>
     </Form>
   )
