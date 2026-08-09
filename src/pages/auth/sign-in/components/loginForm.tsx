@@ -58,8 +58,9 @@ export function LogInForm({
       const result = await login(loginRequest)
       /*       useAuthStore.setAuthToken(result.token) */
       if (result.isAuthenticated) {
-        useAuthStore.getState().setAuthToken(result.token)
+        useAuthStore.getState().auth.setAccessToken(result.token)
         toast.success('Login successful!')
+        console.log('About to navigate to:', redirectTo || '/')
         navigate({ to: redirectTo || '/' })
       } else {
         toast.error(result.error || 'Login failed. Please try again.')
