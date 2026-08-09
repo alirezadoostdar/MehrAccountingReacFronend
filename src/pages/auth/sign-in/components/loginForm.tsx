@@ -2,7 +2,11 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { login } from '@/Services/users/UserService'
+import type { LoginRequest } from '@/Services/users/types/loginRequest'
 import { Loader2, LogIn } from 'lucide-react'
+import { toast } from 'sonner'
+import { useAuthStore } from '@/stores/auth-store'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -40,9 +44,23 @@ export function LogInForm({
     defaultValues: { username: '', password: '' },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
-    console.log(data)
+    try {
+      const loginRequest: LoginRequest = {
+        username: data.username,
+        password: data.password,
+      }
+      console.log('Login request:', loginRequest)
+      const result = await login(loginRequest)
+      /*       useAuthStore.setAuthToken(result.token) */
+      toast.success('Login successful!')
+      console.log('Login successful:', result)
+    } catch (err) {
+      console.error('Login failed:', err)
+    } finally {
+      console.log('Login request completed')
+    }
   }
   /* const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
