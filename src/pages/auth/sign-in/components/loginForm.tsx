@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useNavigate } from '@tanstack/react-router'
 import { login } from '@/Services/users/UserService'
 import type { LoginRequest } from '@/Services/users/types/loginRequest'
 import { Loader2, LogIn } from 'lucide-react'
@@ -44,6 +45,8 @@ export function LogInForm({
     defaultValues: { username: '', password: '' },
   })
 
+  const navigate = useNavigate()
+
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
     try {
@@ -54,10 +57,18 @@ export function LogInForm({
       console.log('Login request:', loginRequest)
       const result = await login(loginRequest)
       /*       useAuthStore.setAuthToken(result.token) */
-      toast.success('Login successful!')
+      if (result.isAuthenticated) {
+        useAuthStore.getState().setAuthToken(result.token)
+        toast.success('Login successful!')
+        navigate({ to: redirectTo || '/' })
+      } else {
+        toast.error(result.error || 'Login failed. Please try again.')
+        return
+      }
+
       console.log('Login successful:', result)
     } catch (err) {
-      console.error('Login failed:', 'err')
+      toast.error(err.message || 'Login failed. Please try again.')
     } finally {
       setIsLoading(false)
     }
