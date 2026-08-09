@@ -57,7 +57,7 @@ export function LogInForm({
       toast.success('Login successful!')
       console.log('Login successful:', result)
     } catch (err) {
-      console.error('Login failed:', err)
+      console.error('Login failed:', 'err')
     } finally {
       console.log('Login request completed')
     }
