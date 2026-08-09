@@ -8,7 +8,7 @@ export const useContactTypes = () => {
     queryKey: ['contactTypes'],
     queryFn: async () => {
       const res =
-        await publicApi.get<ApiResponse<ContactType[]>>('contact/state')
+        await publicApi.get<ApiResponse<ContactType[]>>(' contact/state')
       return res.data.value
     },
   })

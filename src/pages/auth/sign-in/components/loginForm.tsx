@@ -59,7 +59,7 @@ export function LogInForm({
     } catch (err) {
       console.error('Login failed:', 'err')
     } finally {
-      console.log('Login request completed')
+      setIsLoading(false)
     }
   }
   /* const [username, setUsername] = useState('')
