@@ -12,7 +12,6 @@ export async function login(loginDto: LoginRequest): Promise<LoginResponse> {
       loginDto
     )
 
-    console.log('Login response:', res.data)
     if (res.status === 200 && res.data.isSuccess) {
       return {
         isAuthenticated: true,
@@ -26,21 +25,23 @@ export async function login(loginDto: LoginRequest): Promise<LoginResponse> {
         error: res.data.errorMessage,
       }
     }
+    return {
+      isAuthenticated: false,
+      token: '',
+      error: 'An unexpected error occurred during login.',
+    }
   } catch (err) {
-    console.log('RAW ERROR:', err)
-    console.log('IS AXIOS ERROR:', err instanceof AxiosError)
     if (err instanceof AxiosError) {
       console.log('STATUS:', err.response?.status)
       console.log('DATA:', err.response?.data)
       console.log('HEADERS:', err.response?.headers)
+      return {
+        isAuthenticated: false,
+        token: '',
+        error:
+          err.response?.data?.Error.Description ||
+          'An error occurred during login.',
+      }
     }
-    throw err
   }
-
-  const response: LoginResponse = {
-    isAuthenticated: true,
-    token: res.data.value.token,
-    error: loginDto.username,
-  }
-  return response
 }
