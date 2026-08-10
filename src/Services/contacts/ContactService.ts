@@ -13,3 +13,8 @@ export const useContactTypes = () => {
     },
   })
 }
+
+export async function getContacts(): Promise<ContactListItem[]> {
+  const res = await publicApi.get<ApiResponse<ContactListItem[]>>('/contacts')
+  return res.data.value
+}
