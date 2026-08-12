@@ -1,7 +1,7 @@
 import { type ColumnDef } from '@tanstack/react-table'
-import { type ContactType } from '../types/ContactTypes'
+import { type ContactListItem } from '@/Services/contacts/types/contactListItem'
 
-export const columns: ColumnDef<ContactType>[] = [
+export const columns: ColumnDef<ContactListItem>[] = [
   {
     accessorKey: 'id',
     header: 'ID',

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useContactTypes } from '@/Services/ContactService'
+import { getContacts } from '@/Services/contacts/ContactService'
 import { IconPlus, IconSearch } from '@tabler/icons-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -7,7 +7,7 @@ import { ContactsTable } from './components/ContactsTable'
 
 export function ContactsList() {
   const [search, setSearch] = useState('')
-  const { data = [], isLoading } = useContactTypes()
+  const { data = [], isLoading } = getContacts()
 
   return (
     <div className='space-y-4 p-6'>

@@ -6,6 +6,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { type ContactListItem } from '@/Services/contacts/types/contactListItem'
 import { Button } from '@/components/ui/button'
 import {
   Table,
@@ -15,11 +16,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { type ContactType } from '../types/ContactTypes'
 import { columns } from './columns'
 
 interface Props {
-  data: ContactType[]
+  data: ContactListItem[]
   globalFilter: string
 }
 
