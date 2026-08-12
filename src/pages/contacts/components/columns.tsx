@@ -7,7 +7,27 @@ export const columns: ColumnDef<ContactListItem>[] = [
     header: 'ID',
   },
   {
-    accessorKey: 'title',
-    header: 'Title',
+    accessorKey: 'name',
+    header: 'Name',
   },
+  {
+    accessorKey: 'address',
+    header: 'Address',
+  },
+  {
+    accessorKey: 'email',
+    header: 'Email',
+  },
+  {
+    accessorKey: 'phone',
+    header: 'Phone',
+  },
+  {
+    accessorKey: 'mobile',
+    header: 'Mobile',
+  },
+  { accessorKey: 'city', header: 'City' },
+  { accessorKey: 'state', header: 'State' },
+  { accessorKey: 'zone', header: 'Zone' },
+  { accessorKey: 'zipCode', header: 'Zip Code' },
 ]
