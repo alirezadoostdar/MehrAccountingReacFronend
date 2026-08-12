@@ -8,7 +8,7 @@ export const getContacts = () => {
     queryKey: ['contactList'],
     queryFn: async () => {
       const res =
-        await apiClient.get<ApiResponse<ContactListItem[]>>('/contact/state')
+        await apiClient.get<ApiResponse<ContactListItem[]>>('/contact')
       return res.data.value
     },
   })
