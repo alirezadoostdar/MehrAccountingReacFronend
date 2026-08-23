@@ -6,9 +6,23 @@ import { Input } from '@/components/ui/input'
 import { ContactsTable } from './components/ContactsTable'
 
 export function ContactsList() {
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
   const [search, setSearch] = useState('')
-  const { data = [], isLoading } = getContacts()
+  const { data, isLoading } = getContacts({
+    page,
+    pageSize,
+    search,
+  })
 
+  const contacts = data?.Data ?? []
+  const meta = data?.Meta
+  const totalPages = Math.ceil((meta?.TotalPages ?? 0) / pageSize)
+
+  const handleSearch = (value: string) => {
+    setSearch(value)
+    setPage(1) // Reset to the first page when searching
+  }
   return (
     <div className='space-y-4 p-6'>
       {/* Header */}
@@ -32,7 +46,7 @@ export function ContactsList() {
           <Input
             placeholder='Search contacts...'
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
             className='pl-9'
           />
         </div>
@@ -42,8 +56,38 @@ export function ContactsList() {
       {isLoading ? (
         <p className='text-sm text-muted-foreground'>Loading...</p>
       ) : (
-        <ContactsTable data={data} globalFilter={search} />
+        <ContactsTable data={contacts} globalFilter={search} />
       )}
+
+      {/* Pagination */}
+      <div className='flex items-center justify-between'>
+        <p className='text-sm text-muted-foreground'>
+          نمایش {(page - 1) * pageSize + 1} تا{' '}
+          {Math.min(page * pageSize, meta?.TotalItems ?? 0)} از{' '}
+          {meta?.TotalItems ?? 0} رکورد
+        </p>
+        <div className='flex items-center gap-2'>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => setPage((p) => p - 1)}
+            disabled={page === 1}
+          >
+            قبلی
+          </Button>
+          <span className='text-sm'>
+            {page} از {totalPages}
+          </span>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => setPage((p) => p + 1)}
+            disabled={page === totalPages}
+          >
+            بعدی
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }
