@@ -15,9 +15,12 @@ export function ContactsList() {
     search,
   })
 
-  const contacts = data?.Data ?? []
-  const meta = data?.Meta
+  const contacts = data?.data ?? []
+  console.log('contacts', contacts)
+  const meta = data?.meta
+  console.log('meta', meta)
   const totalPages = Math.ceil((meta?.TotalPages ?? 0) / pageSize)
+  console.log('totalPages', totalPages)
 
   const handleSearch = (value: string) => {
     setSearch(value)

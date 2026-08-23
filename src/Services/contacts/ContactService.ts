@@ -19,7 +19,7 @@ export const getContacts = ({
         params: { page, pageSize, search },
       })
       console.log('res.data.value', res.data.value)
-      return res.data.value.data
+      return res.data.value
     },
   })
 }
