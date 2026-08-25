@@ -36,6 +36,7 @@ type DataTableProps = {
 
 export function TasksTable({ data }: DataTableProps) {
   // Local UI-only states
+  console.log('data', data)
   const [rowSelection, setRowSelection] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
