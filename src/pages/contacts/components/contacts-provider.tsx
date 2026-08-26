@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
+import { type ContactListItem } from '@/Services/contacts/types/contactListItem'
 import useDialogState from '@/hooks/use-dialog-state'
-import { type User } from '../data/schema'
 
 type ContactsDialogType = 'invite' | 'add' | 'edit' | 'delete'
 
 type ContactsContextType = {
   open: ContactsDialogType | null
   setOpen: (str: ContactsDialogType | null) => void
-  currentRow: User | null
-  setCurrentRow: React.Dispatch<React.SetStateAction<User | null>>
+  currentRow: ContactListItem | null
+  setCurrentRow: React.Dispatch<React.SetStateAction<ContactListItem | null>>
 }
 
 const ContactsContext = React.createContext<ContactsContextType | null>(null)
 
 export function ContactsProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useDialogState<ContactsDialogType>(null)
-  const [currentRow, setCurrentRow] = useState<User | null>(null)
+  const [currentRow, setCurrentRow] = useState<ContactListItem | null>(null)
 
   return (
     <ContactsContext value={{ open, setOpen, currentRow, setCurrentRow }}>
