@@ -35,3 +35,14 @@ export const useStatesList = () => {
     },
   })
 }
+
+export const useCityList = () => {
+  return useQuery({
+    queryKey: ['stateList'],
+    queryFn: async () => {
+      const res =
+        await apiClient.get<ApiResponse<StateListItem[]>>('/contact/state')
+      return res.data.value
+    },
+  })
+}
