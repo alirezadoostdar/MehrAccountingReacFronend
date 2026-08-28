@@ -57,9 +57,8 @@ export function ContactsTable({ data, search, navigate }: DataTableProps) {
     globalFilter: { enabled: false },
     columnFilters: [
       // username per-column text filter
-      { columnId: 'username', searchKey: 'username', type: 'string' },
-      { columnId: 'status', searchKey: 'status', type: 'array' },
-      { columnId: 'role', searchKey: 'role', type: 'array' },
+      { columnId: 'state', searchKey: 'State', type: 'string' },
+      { columnId: 'city', searchKey: 'City', type: 'string' },
     ],
   })
 
@@ -101,23 +100,18 @@ export function ContactsTable({ data, search, navigate }: DataTableProps) {
     >
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter users...'
-        searchKey='username'
+        searchPlaceholder='Filter contacts...'
+        searchKey='name'
         filters={[
           {
-            columnId: 'status',
-            title: 'Status',
-            options: [
-              { label: 'Active', value: 'active' },
-              { label: 'Inactive', value: 'inactive' },
-              { label: 'Invited', value: 'invited' },
-              { label: 'Suspended', value: 'suspended' },
-            ],
+            columnId: 'state',
+            title: 'State',
+            options: [{ label: 'فارس', value: 'فارس' }],
           },
           {
-            columnId: 'role',
-            title: 'Role',
-            options: [{ label: 'Active', value: 'active' }],
+            columnId: 'city',
+            title: 'City',
+            options: [{ label: 'شیراز', value: 'شیراز' }],
           },
         ]}
       />

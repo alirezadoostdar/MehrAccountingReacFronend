@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { getRouteApi } from '@tanstack/react-router'
 import { getContacts } from '@/Services/contacts/ContactService'
 import { IconPlus, IconSearch } from '@tabler/icons-react'
 import { Button } from '@/components/ui/button'
@@ -12,15 +13,20 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { ContactsTable } from './components/ContactsTable'
 import { ContactsProvider } from './components/contacts-provider'
 
+const route = getRouteApi('/_authenticated/contacts/')
+
 export function ContactsList() {
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
+  const [pageSize, setPageSize] = useState(20)
   const [search, setSearch] = useState('')
   const { data, isLoading } = getContacts({
     page,
     pageSize,
     search,
   })
+  const searchA = route.useSearch()
+  console.log('searchA', searchA)
+  const navigate = route.useNavigate()
 
   const contacts = data?.data ?? []
   console.log('contacts', contacts)
@@ -45,14 +51,14 @@ export function ContactsList() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>User List</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>Contact List</h2>
             <p className='text-muted-foreground'>
-              Manage your users and their roles here.
+              Manage your contacts and their information here.
             </p>
           </div>
           {/* <UsersPrimaryButtons /> */}
         </div>
-        <ContactsTable data={contacts} search={search} navigate={navigate} />
+        <ContactsTable data={contacts} search={searchA} navigate={navigate} />
       </Main>
     </ContactsProvider>
   )
