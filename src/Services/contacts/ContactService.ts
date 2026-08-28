@@ -25,7 +25,7 @@ export const getContacts = ({
   })
 }
 
-export const getStatesList = () => {
+export const useStatesList = () => {
   return useQuery({
     queryKey: ['stateList'],
     queryFn: async () => {

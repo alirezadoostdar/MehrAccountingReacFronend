@@ -12,7 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { getStatesList } from '@/Services/contacts/ContactService'
+import { useStatesList } from '@/Services/contacts/ContactService'
 //import { roles } from '../data/data'
 import { type ContactListItem as Contact } from '@/Services/contacts/types/contactListItem'
 import { StateListItem } from '@/Services/contacts/types/stateListItem'
@@ -42,7 +42,7 @@ export function ContactsTable({ data, search, navigate }: DataTableProps) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
 
-  const result = getStatesList()
+  const result = useStatesList()
   const stateList = result.data ?? []
   console.log('statelist', result)
   // Local state management for table (uncomment to use local-only state, not synced with URL)
