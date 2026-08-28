@@ -4,6 +4,7 @@ import type { PagedResult } from '../commenTypes/PagedResult'
 import type { ApiResponse } from './ApiResponse'
 import type { ContactListItem } from './types/contactListItem'
 import type { PaginationQueryParams } from './types/paginationQueryParams'
+import { StateListItem } from './types/stateListItem'
 
 export const getContacts = ({
   page,
@@ -19,6 +20,17 @@ export const getContacts = ({
         params: { page, pageSize, search },
       })
       console.log('res.data.value', res.data.value)
+      return res.data.value
+    },
+  })
+}
+
+export const getStatesList = () => {
+  return useQuery({
+    queryKey: ['stateList'],
+    queryFn: async () => {
+      const res =
+        await apiClient.get<ApiResponse<StateListItem[]>>('/contact/state')
       return res.data.value
     },
   })

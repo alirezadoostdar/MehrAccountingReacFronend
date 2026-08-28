@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Value } from '@radix-ui/react-select'
 import {
   type SortingState,
   type VisibilityState,
@@ -11,8 +12,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { getStatesList } from '@/Services/contacts/ContactService'
 //import { roles } from '../data/data'
 import { type ContactListItem as Contact } from '@/Services/contacts/types/contactListItem'
+import { StateListItem } from '@/Services/contacts/types/stateListItem'
 //import { DataTableBulkActions } from '@//data-table-bulk-actions'
 import { columns } from '@/pages/contacts/components/columns'
 import { cn } from '@/lib/utils'
@@ -39,6 +42,9 @@ export function ContactsTable({ data, search, navigate }: DataTableProps) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
 
+  const result = getStatesList()
+  const stateList = result.data ?? []
+  console.log('statelist', result)
   // Local state management for table (uncomment to use local-only state, not synced with URL)
   // const [columnFilters, onColumnFiltersChange] = useState<ColumnFiltersState>([])
   // const [pagination, onPaginationChange] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 })
@@ -106,7 +112,10 @@ export function ContactsTable({ data, search, navigate }: DataTableProps) {
           {
             columnId: 'state',
             title: 'State',
-            options: [{ label: 'فارس', value: 'فارس' }],
+            options: stateList.map((s: StateListItem) => ({
+              label: s.title,
+              value: s.title,
+            })),
           },
           {
             columnId: 'city',
