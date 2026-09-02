@@ -1,0 +1,23 @@
+{
+  "title": "Contact List",
+  "description": "Manage your contacts and their information here.",
+  "toolbar": {
+    "searchPlaceholder": "Filter contacts..."
+  },
+  "filters": {
+    "state": "State",
+    "city": "City"
+  },
+  "columns": {
+    "id": "ID",
+    "name": "Name",
+    "address": "Address",
+    "email": "Email",
+    "phone": "Phone",
+    "mobile": "Mobile",
+    "city": "City",
+    "state": "State",
+    "zone": "Zone",
+    "zipCode": "Zip Code"
+  }
+}

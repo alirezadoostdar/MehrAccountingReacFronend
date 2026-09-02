@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { getRouteApi } from '@tanstack/react-router'
 import { getContacts } from '@/Services/contacts/ContactService'
 import { IconPlus, IconSearch } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ConfigDrawer } from '@/components/config-drawer'
@@ -16,6 +17,7 @@ import { ContactsProvider } from './components/contacts-provider'
 const route = getRouteApi('/_authenticated/contacts/')
 
 export function ContactsList() {
+  const { t } = useTranslation('contacts')
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [search, setSearch] = useState('')
@@ -51,10 +53,8 @@ export function ContactsList() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Contact List</h2>
-            <p className='text-muted-foreground'>
-              Manage your contacts and their information here.
-            </p>
+            <h2 className='text-2xl font-bold tracking-tight'>{t('title')}</h2>
+            <p className='text-muted-foreground'>{t('description')}</p>
           </div>
           {/* <UsersPrimaryButtons /> */}
         </div>

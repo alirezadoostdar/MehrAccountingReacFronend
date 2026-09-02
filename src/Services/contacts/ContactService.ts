@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { apiClient } from '../apiClient'
 import type { PagedResult } from '../commenTypes/PagedResult'
 import type { ApiResponse } from './ApiResponse'
+import { CityListItem } from './types/cityListItem'
 import type { ContactListItem } from './types/contactListItem'
 import type { PaginationQueryParams } from './types/paginationQueryParams'
 import { StateListItem } from './types/stateListItem'
@@ -36,11 +37,13 @@ export const useStatesList = () => {
   })
 }
 
-export const useCityList = ({ stateId }: number) => {
+export const useCityList = (stateId: number) => {
   return useQuery({
-    queryKey: ['stateList'],
+    queryKey: ['stateList', stateId],
     queryFn: async () => {
-      const res = await apiClient.get<ApiResponse<StateListItem[]>>('/contact/')
+      const res = await apiClient.get<ApiResponse<CityListItem[]>>(
+        `/contact/city/${stateId}`
+      )
       return res.data.value
     },
   })

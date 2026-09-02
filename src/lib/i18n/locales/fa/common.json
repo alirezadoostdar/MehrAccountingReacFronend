@@ -1,0 +1,10 @@
+{
+  "table": {
+    "noResults": "نتیجه‌ای یافت نشد."
+  },
+  "settings": {
+    "language": "زبان",
+    "languageResetAriaLabel": "بازنشانی زبان به حالت پیش‌فرض",
+    "languageSelectAriaLabel": "انتخاب زبان"
+  }
+}

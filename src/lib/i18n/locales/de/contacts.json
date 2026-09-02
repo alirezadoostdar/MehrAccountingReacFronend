@@ -1,0 +1,23 @@
+{
+  "title": "Kontaktliste",
+  "description": "Verwalten Sie hier Ihre Kontakte und deren Informationen.",
+  "toolbar": {
+    "searchPlaceholder": "Kontakte filtern..."
+  },
+  "filters": {
+    "state": "Bundesland",
+    "city": "Stadt"
+  },
+  "columns": {
+    "id": "ID",
+    "name": "Name",
+    "address": "Adresse",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "mobile": "Mobil",
+    "city": "Stadt",
+    "state": "Bundesland",
+    "zone": "Zone",
+    "zipCode": "PLZ"
+  }
+}

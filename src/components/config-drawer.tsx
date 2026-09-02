@@ -1,6 +1,8 @@
 import { type SVGProps } from 'react'
 import { Root as Radio, Item } from '@radix-ui/react-radio-group'
 import { CircleCheck, RotateCcw, Settings } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { languageMap, languages } from '@/config/languages'
 import { IconDir } from '@/assets/custom/icon-dir'
 import { IconLayoutCompact } from '@/assets/custom/icon-layout-compact'
 import { IconLayoutDefault } from '@/assets/custom/icon-layout-default'
@@ -13,6 +15,7 @@ import { IconThemeLight } from '@/assets/custom/icon-theme-light'
 import { IconThemeSystem } from '@/assets/custom/icon-theme-system'
 import { cn } from '@/lib/utils'
 import { useDirection } from '@/context/direction-provider'
+import { useLanguage } from '@/context/language-provider'
 import { type Collapsible, useLayout } from '@/context/layout-provider'
 import { useTheme } from '@/context/theme-provider'
 import { Button } from '@/components/ui/button'
@@ -32,12 +35,14 @@ export function ConfigDrawer() {
   const { resetDir } = useDirection()
   const { resetTheme } = useTheme()
   const { resetLayout } = useLayout()
+  const { resetLanguage } = useLanguage()
 
   const handleReset = () => {
     setOpen(true)
     resetDir()
     resetTheme()
     resetLayout()
+    resetLanguage()
   }
 
   return (
@@ -64,6 +69,7 @@ export function ConfigDrawer() {
           <SidebarConfig />
           <LayoutConfig />
           <DirConfig />
+          <LanguageConfig />
         </div>
         <SheetFooter className='gap-2'>
           <Button
@@ -357,6 +363,59 @@ function DirConfig() {
       <div id='direction-description' className='sr-only'>
         Choose between left-to-right or right-to-left site direction
       </div>
+    </div>
+  )
+}
+
+function LanguageConfig() {
+  const { t } = useTranslation('common')
+  const { defaultLanguage, language, setLanguage, resetLanguage } =
+    useLanguage()
+  const { setDir } = useDirection()
+
+  const handleChange = (value: string) => {
+    const code = value as keyof typeof languageMap
+    setLanguage(code)
+    // Switching language also switches to that language's natural
+    // direction; the user can still override it via `DirConfig` afterwards.
+    setDir(languageMap[code].dir)
+  }
+
+  const handleReset = () => {
+    resetLanguage()
+    setDir(languageMap[defaultLanguage].dir)
+  }
+
+  return (
+    <div>
+      <SectionTitle
+        title={t('settings.language')}
+        showReset={language !== defaultLanguage}
+        onReset={handleReset}
+        resetAriaLabel={t('settings.languageResetAriaLabel')}
+      />
+      <Radio
+        value={language}
+        onValueChange={handleChange}
+        className='grid w-full max-w-md grid-cols-3 gap-2'
+        aria-label={t('settings.languageSelectAriaLabel')}
+      >
+        {languages.map((lang) => (
+          <Item
+            key={lang.code}
+            value={lang.code}
+            className={cn(
+              'rounded-md px-3 py-2 text-sm ring-[1px] ring-border outline-none',
+              'transition duration-200 ease-in',
+              'data-[state=checked]:font-medium data-[state=checked]:ring-2 data-[state=checked]:ring-primary',
+              'focus-visible:ring-2'
+            )}
+            aria-label={lang.nativeName}
+          >
+            {lang.nativeName}
+          </Item>
+        ))}
+      </Radio>
     </div>
   )
 }

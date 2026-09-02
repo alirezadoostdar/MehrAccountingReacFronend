@@ -1,0 +1,10 @@
+{
+  "table": {
+    "noResults": "Keine Ergebnisse."
+  },
+  "settings": {
+    "language": "Sprache",
+    "languageResetAriaLabel": "Sprache auf Standard zurücksetzen",
+    "languageSelectAriaLabel": "Sprache auswählen"
+  }
+}

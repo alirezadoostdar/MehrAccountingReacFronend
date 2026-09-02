@@ -12,12 +12,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useStatesList } from '@/Services/contacts/ContactService'
+import { useTranslation } from 'react-i18next'
+import { useCityList, useStatesList } from '@/Services/contacts/ContactService'
+import { CityListItem } from '@/Services/contacts/types/cityListItem'
 //import { roles } from '../data/data'
 import { type ContactListItem as Contact } from '@/Services/contacts/types/contactListItem'
 import { StateListItem } from '@/Services/contacts/types/stateListItem'
 //import { DataTableBulkActions } from '@//data-table-bulk-actions'
-import { columns } from '@/pages/contacts/components/columns'
+import { useContactColumns } from '@/pages/contacts/components/columns'
 import { cn } from '@/lib/utils'
 import { type NavigateFn, useTableUrlState } from '@/hooks/use-table-url-state'
 import {
@@ -37,6 +39,10 @@ type DataTableProps = {
 }
 
 export function ContactsTable({ data, search, navigate }: DataTableProps) {
+  const { t } = useTranslation('contacts')
+  const { t: tCommon } = useTranslation('common')
+  const columns = useContactColumns()
+
   // Local UI-only states
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -44,7 +50,9 @@ export function ContactsTable({ data, search, navigate }: DataTableProps) {
 
   const result = useStatesList()
   const stateList = result.data ?? []
-  console.log('statelist', result)
+  const cityRsult = useCityList(17)
+  const cityList = cityRsult.data ?? []
+  console.log('cityList', cityRsult)
   // Local state management for table (uncomment to use local-only state, not synced with URL)
   // const [columnFilters, onColumnFiltersChange] = useState<ColumnFiltersState>([])
   // const [pagination, onPaginationChange] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 })
@@ -106,12 +114,12 @@ export function ContactsTable({ data, search, navigate }: DataTableProps) {
     >
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter contacts...'
+        searchPlaceholder={t('toolbar.searchPlaceholder')}
         searchKey='name'
         filters={[
           {
             columnId: 'state',
-            title: 'State',
+            title: t('filters.state'),
             options: stateList.map((s: StateListItem) => ({
               label: s.title,
               value: s.title,
@@ -119,8 +127,11 @@ export function ContactsTable({ data, search, navigate }: DataTableProps) {
           },
           {
             columnId: 'city',
-            title: 'City',
-            options: [{ label: 'شیراز', value: 'شیراز' }],
+            title: t('filters.city'),
+            options: cityList.map((c: CityListItem) => ({
+              label: c.title,
+              value: c.title,
+            })),
           },
         ]}
       />
@@ -183,7 +194,7 @@ export function ContactsTable({ data, search, navigate }: DataTableProps) {
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  {tCommon('table.noResults')}
                 </TableCell>
               </TableRow>
             )}
